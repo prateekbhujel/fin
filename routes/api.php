@@ -1,5 +1,5 @@
 <?php
 
-foreach (glob(__DIR__.'/modules/api/*.php') as $routeFile) {
+foreach (glob(app_path('Modules/*/Routes/api.php')) ?: [] as $routeFile) {
     require $routeFile;
 }

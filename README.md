@@ -1,6 +1,6 @@
-# Nepali Finance Management System
+# Fin
 
-Laravel 12 + MySQL finance management starter built for Nepali office workflows, Blade-first UI, TailAdmin-inspired admin layout, and shared hosting deployment.
+Laravel 12 + MySQL finance management starter built for Nepali office workflows, Blade-first UI, TailAdmin-inspired admin layout, modular service/DTO architecture, and shared hosting deployment.
 
 ## Overview
 
@@ -35,13 +35,14 @@ It uses:
 
 ## Module Structure
 
-Backend modules are grouped by concern:
+Backend modules follow an `app/Modules/<Module>` pattern inspired by larger modular Laravel codebases:
 
-- Controllers: `app/Http/Controllers/Modules`
-- Requests: `app/Http/Requests/Modules`
+- DTOs: `app/Modules/<Module>/DTOs`
+- Controllers: `app/Modules/<Module>/Http/Controllers`
+- Requests: `app/Modules/<Module>/Http/Requests`
+- Services: `app/Modules/<Module>/Services`
+- Routes: `app/Modules/<Module>/Routes`
 - Views: `resources/views/modules`
-- Web routes: `routes/modules/web`
-- API routes: `routes/modules/api`
 
 Core domain models live in `app/Models`, while shared helpers/services live in `app/Support`.
 
@@ -64,7 +65,7 @@ php artisan key:generate
 3. Create the MySQL database.
 
 ```sql
-CREATE DATABASE finance_management CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE fin CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
 4. Update `.env` with your local database and mail settings.
@@ -88,8 +89,8 @@ npm run dev
 
 These come from `.env` / `.env.example` values and should be changed immediately for real use:
 
-- Admin: `admin@finance.test` / `password`
-- Staff: `staff@finance.test` / `password`
+- Admin: `admin@fin.test` / `password`
+- Staff: `staff@fin.test` / `password`
 
 ## Shared Hosting Deployment Guide
 
@@ -188,6 +189,22 @@ After API changes, regenerate docs with:
 ```bash
 php artisan l5-swagger:generate
 ```
+
+## Playwright E2E
+
+Playwright is configured for a simple login and dashboard smoke test.
+
+Run:
+
+```bash
+npm run test:e2e
+```
+
+Notes:
+
+- the command builds frontend assets first
+- it starts `php artisan serve` automatically on `http://127.0.0.1:8000`
+- it expects the local `.env` database to be migrated and seeded
 
 ## Branch Usage
 

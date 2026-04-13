@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Transaction;
+use App\Modules\Transactions\DTOs\TransactionData;
+use App\Modules\Transactions\DTOs\TransactionFiltersData;
+use App\Modules\Transactions\Services\TransactionService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use OpenApi\Attributes as OA;
@@ -31,9 +33,8 @@ class TransactionController extends Controller
     )]
     public function index()
     {
-        $transactions = Transaction::query()
-            ->with(['category', 'user'])
-            ->filter(request()->only([
+        $transactions = app(TransactionService::class)->paginate(
+            TransactionFiltersData::fromArray(request()->only([
                 'search',
                 'type',
                 'category_id',
@@ -41,9 +42,9 @@ class TransactionController extends Controller
                 'date_to',
                 'from_bs',
                 'to_bs',
-            ]))
-            ->latest('transaction_date')
-            ->paginate(20);
+            ])),
+            perPage: 20,
+        );
 
         return response()->json($transactions);
     }
@@ -87,19 +88,11 @@ class TransactionController extends Controller
             'notes' => ['nullable', 'string'],
         ]);
 
-        $category = isset($validated['category_id']) ? Category::find($validated['category_id']) : null;
-
-        if ($category && $category->type !== $validated['type']) {
-            return response()->json([
-                'message' => 'Selected category does not match transaction type.',
-            ], 422);
-        }
-
-        $transaction = Transaction::create([
-            ...$validated,
-            'user_id' => auth()->id(),
-            'transaction_bs' => bs_date($validated['transaction_date']),
-        ]);
+        $transaction = app(TransactionService::class)->store(
+            data: TransactionData::fromArray($validated),
+            ownerUserId: (int) auth()->id(),
+            actorUserId: (int) auth()->id(),
+        );
 
         return response()->json($transaction->load(['category', 'user']), 201);
     }

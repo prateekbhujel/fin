@@ -13,7 +13,7 @@
             <div class="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:42px_42px] opacity-30"></div>
             <div class="relative">
                 <div class="inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-sm font-medium">
-                    {{ setting('app.company_name', 'Nepali Finance Management System') }}
+                    {{ setting('app.company_name', 'Fin') }}
                 </div>
                 <h1 class="mt-8 max-w-xl text-4xl font-semibold leading-tight">
                     Clean finance operations for Nepali offices, teams, and daily reporting.

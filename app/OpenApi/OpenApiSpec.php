@@ -6,8 +6,8 @@ use OpenApi\Attributes as OA;
 
 #[OA\Info(
     version: '1.0.0',
-    title: 'Nepali Finance Management API',
-    description: 'Basic API endpoints for users and transactions in the Nepali Finance Management System.'
+    title: 'Fin API',
+    description: 'Basic API endpoints for users and transactions in Fin.'
 )]
 #[OA\Server(
     url: '/api/v1',

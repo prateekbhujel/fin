@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Modules\Users\Services\UserService;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
@@ -23,15 +24,7 @@ class UserController extends Controller
     )]
     public function index()
     {
-        $users = User::query()
-            ->with('roles')
-            ->when(request('search'), function ($query, $search) {
-                $query->where(function ($builder) use ($search) {
-                    $builder->where('name', 'like', "%{$search}%")
-                        ->orWhere('email', 'like', "%{$search}%");
-                });
-            })
-            ->paginate(20);
+        $users = app(UserService::class)->paginate(request()->only(['search']), 20);
 
         return response()->json($users);
     }

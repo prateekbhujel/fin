@@ -12,7 +12,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-foreach (glob(__DIR__.'/modules/web/*.php') as $routeFile) {
+foreach (glob(app_path('Modules/*/Routes/web.php')) ?: [] as $routeFile) {
     require $routeFile;
 }
 
