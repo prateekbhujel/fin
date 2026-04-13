@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap') layer(base);
+@import 'flatpickr/dist/flatpickr.min.css';
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-outfit: Outfit, sans-serif;
+
+  --color-brand-25: #f5f8ff;
+  --color-brand-50: #edf3ff;
+  --color-brand-100: #dde8ff;
+  --color-brand-200: #bfd4ff;
+  --color-brand-300: #92b5ff;
+  --color-brand-400: #628fff;
+  --color-brand-500: #405cf5;
+  --color-brand-600: #3348d9;
+  --color-brand-700: #293bb0;
+  --color-brand-800: #24348e;
+  --color-brand-900: #22316f;
+
+  --color-gray-25: #fcfcfd;
+  --color-gray-50: #f8fafc;
+  --color-gray-100: #f1f5f9;
+  --color-gray-200: #e2e8f0;
+  --color-gray-300: #cbd5e1;
+  --color-gray-400: #94a3b8;
+  --color-gray-500: #64748b;
+  --color-gray-600: #475569;
+  --color-gray-700: #334155;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #0f172a;
+
+  --color-success-50: #ecfdf3;
+  --color-success-500: #16a34a;
+  --color-danger-50: #fef2f2;
+  --color-danger-500: #dc2626;
+  --color-warning-50: #fff7ed;
+  --color-warning-500: #ea580c;
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+
+  body {
+    @apply bg-gray-50 font-outfit text-gray-800 antialiased dark:bg-gray-950 dark:text-gray-100;
+  }
+
+  [x-cloak] {
+    display: none !important;
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@utility card {
+  @apply rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900;
+}
+
+@utility page-shell {
+  @apply mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8;
+}
+
+@utility btn-primary {
+  @apply inline-flex items-center justify-center rounded-xl bg-brand-500 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-brand-600 focus:outline-hidden focus:ring-4 focus:ring-brand-500/20;
+}
+
+@utility btn-secondary {
+  @apply inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50 focus:outline-hidden focus:ring-4 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-gray-800;
+}
+
+@utility btn-danger {
+  @apply inline-flex items-center justify-center rounded-xl bg-red-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-red-700 focus:outline-hidden focus:ring-4 focus:ring-red-500/20;
+}
+
+@utility form-input {
+  @apply w-full rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-800 shadow-xs transition placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-4 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-950 dark:text-white dark:placeholder:text-gray-500;
+}
+
+@utility form-select {
+  @apply form-input pr-10;
+}
+
+@utility form-textarea {
+  @apply form-input min-h-28;
+}
+
+@utility form-checkbox {
+  @apply h-4 w-4 rounded border-gray-300 text-brand-500 focus:ring-brand-500/20;
+}
+
+@utility table-shell {
+  @apply overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900;
+}
+
+@utility table-th {
+  @apply px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400;
+}
+
+@utility table-td {
+  @apply px-4 py-3 text-sm text-gray-700 dark:text-gray-200;
+}
+
+@utility badge {
+  @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium;
+}
+
+@utility badge-success {
+  @apply badge bg-success-50 text-success-500;
+}
+
+@utility badge-danger {
+  @apply badge bg-danger-50 text-danger-500;
+}
+
+@utility badge-warning {
+  @apply badge bg-warning-50 text-warning-500;
+}
