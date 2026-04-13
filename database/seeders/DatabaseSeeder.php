@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             );
         }
 
-        $admin = User::where('email', env('ADMIN_EMAIL', 'admin@finance.test'))->first();
+        $admin = User::where('email', env('ADMIN_EMAIL', 'admin@fin.test'))->first();
 
         Announcement::updateOrCreate([
             'title' => 'Welcome to the finance dashboard',

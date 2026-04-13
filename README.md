@@ -1,6 +1,6 @@
 # Fin
 
-Laravel 12 + MySQL finance management starter built for Nepali office workflows, Blade-first UI, TailAdmin-inspired admin layout, modular service/DTO architecture, and shared hosting deployment.
+Laravel 12 + MySQL finance management system for Nepali office workflows with a React + TypeScript frontend layer, TailAdmin-inspired admin styling, Ant Design components, modular Laravel services, and shared-hosting-friendly deployment.
 
 ## Overview
 
@@ -9,9 +9,11 @@ This project is a practical MVP for tracking income, expenses, categories, repor
 It uses:
 
 - Laravel 12
-- Blade + Vite
+- React 19 + TypeScript + Vite
+- Blade routing with React-powered guest and dashboard surfaces
 - Tailwind CSS v4
 - TailAdmin-inspired admin shell
+- Ant Design
 - Spatie Laravel Permission
 - Laravel Excel
 - L5 Swagger / OpenAPI
@@ -19,8 +21,8 @@ It uses:
 
 ## Main Features
 
-- Dashboard with summary cards, recent transactions, announcements, and chart
-- Auth with Laravel Breeze (Blade starter)
+- Dashboard with React-powered summary cards, chart, announcements, and recent activity
+- Auth with Laravel Breeze routes and a redesigned React-enhanced guest shell
 - Roles and permissions for `admin` and `staff`
 - Transaction CRUD with AD + BS date support
 - Category CRUD
@@ -226,6 +228,7 @@ The workflow runs:
 - `composer install`
 - `php artisan test`
 - `npm ci`
+- `npm run typecheck`
 - `npm run build`
 
 ## Useful Commands
@@ -234,5 +237,6 @@ The workflow runs:
 php artisan migrate:fresh --seed
 php artisan l5-swagger:generate
 php artisan test
+npm run typecheck
 npm run build
 ```

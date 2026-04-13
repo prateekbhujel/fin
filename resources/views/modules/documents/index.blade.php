@@ -39,8 +39,16 @@
         <div class="card p-6">
             <div class="mb-5 flex items-center justify-between">
                 <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Stored Documents</h2>
-                <form class="flex gap-3">
+                <form class="grid gap-3 md:grid-cols-[minmax(0,1fr)_220px_auto]">
                     <input name="search" value="{{ request('search') }}" class="form-input" placeholder="Search filename">
+                    <select name="transaction_id" class="form-select">
+                        <option value="">All transactions</option>
+                        @foreach ($transactions as $transaction)
+                            <option value="{{ $transaction->id }}" @selected((string) request('transaction_id') === (string) $transaction->id)>
+                                {{ $transaction->title }}
+                            </option>
+                        @endforeach
+                    </select>
                     <button class="btn-secondary" type="submit">Search</button>
                 </form>
             </div>

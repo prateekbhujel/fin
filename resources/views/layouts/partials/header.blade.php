@@ -10,7 +10,7 @@
 
             <div>
                 <div class="text-sm text-gray-500 dark:text-gray-400">{{ now()->format('l, F j, Y') }}</div>
-                <div class="text-lg font-semibold text-gray-900 dark:text-white">{{ setting('app.company_name', 'Finance Dashboard') }}</div>
+                <div class="text-lg font-semibold text-gray-900 dark:text-white">{{ setting('app.company_name', 'Daily Finance Desk') }}</div>
             </div>
         </div>
 

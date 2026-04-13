@@ -10,7 +10,7 @@
             </div>
             <div x-show="sidebarExpanded || window.innerWidth < 1280" x-cloak>
                 <div class="text-sm font-semibold text-gray-900 dark:text-white">{{ setting('app.company_name', 'Finance System') }}</div>
-                <div class="text-xs text-gray-500 dark:text-gray-400">Blade + TailAdmin UI</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400">Office finance workspace</div>
             </div>
         </a>
         <button class="rounded-xl p-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 xl:hidden" @click="sidebarOpen = false">

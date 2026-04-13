@@ -4,6 +4,7 @@ namespace App\Modules\Transactions\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class StoreTransactionRequest extends FormRequest
 {
@@ -26,6 +27,21 @@ class StoreTransactionRequest extends FormRequest
             'notes' => ['nullable', 'string'],
             'documents' => ['nullable', 'array'],
             'documents.*' => ['file', 'mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx,csv', 'max:5120'],
+        ];
+    }
+
+    public function after(): array
+    {
+        return [
+            function (Validator $validator): void {
+                if (! $this->filled('transaction_date') && ! $this->filled('transaction_date_bs')) {
+                    $validator->errors()->add('transaction_date', 'Please provide either an A.D. or B.S. transaction date.');
+                }
+
+                if ($this->filled('transaction_date_bs') && ! ad_date_from_bs((string) $this->input('transaction_date_bs'))) {
+                    $validator->errors()->add('transaction_date_bs', 'The B.S. transaction date could not be converted.');
+                }
+            },
         ];
     }
 

@@ -46,7 +46,7 @@ class TransactionService
 
     public function store(TransactionData $data, int $ownerUserId, int $actorUserId, array $documents = []): Transaction
     {
-        $transaction = $this->persist(new Transaction(), $data, $ownerUserId);
+        $transaction = $this->persist(new Transaction, $data, $ownerUserId);
         $this->storeDocuments($transaction, $documents, $actorUserId);
         $this->sendNotificationIfEnabled($transaction);
 
@@ -65,6 +65,7 @@ class TransactionService
     {
         foreach ($transaction->documents as $document) {
             Storage::disk($document->disk)->delete($document->path);
+            $document->delete();
         }
 
         $transaction->delete();

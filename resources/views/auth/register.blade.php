@@ -1,8 +1,8 @@
 <x-guest-layout>
     <div class="mb-8">
         <div class="text-sm font-medium uppercase tracking-[0.25em] text-brand-500">Get started</div>
-        <h1 class="mt-3 text-3xl font-semibold text-gray-900 dark:text-white">Create an account</h1>
-        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Register a user account and start working inside the finance dashboard.</p>
+        <h1 class="mt-3 text-3xl font-semibold text-gray-900 dark:text-white">Create the next team login</h1>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Add another person to the workspace so daily entries and month-end review do not depend on one desk.</p>
     </div>
 
     <form method="POST" action="{{ route('register') }}" class="space-y-5">

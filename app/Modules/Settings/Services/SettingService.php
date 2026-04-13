@@ -12,18 +12,18 @@ class SettingService
     {
         return [
             'app' => [
-                'company_name' => setting('app.company_name', config('finance.setting_defaults.app.company_name')),
-                'company_email' => setting('app.company_email', config('finance.setting_defaults.app.company_email')),
-                'company_phone' => setting('app.company_phone', config('finance.setting_defaults.app.company_phone')),
-                'address' => setting('app.address', config('finance.setting_defaults.app.address')),
-                'currency_symbol' => setting('app.currency_symbol', config('finance.setting_defaults.app.currency_symbol')),
+                'company_name' => setting('app.company_name', $this->default('app.company_name', 'Fin')),
+                'company_email' => setting('app.company_email', $this->default('app.company_email', 'info@example.com')),
+                'company_phone' => setting('app.company_phone', $this->default('app.company_phone', '+977-1-0000000')),
+                'address' => setting('app.address', $this->default('app.address', 'Kathmandu, Nepal')),
+                'currency_symbol' => setting('app.currency_symbol', $this->default('app.currency_symbol', 'NPR')),
             ],
             'mail' => [
-                'notification_email' => setting('mail.notification_email', config('finance.setting_defaults.mail.notification_email')),
+                'notification_email' => setting('mail.notification_email', $this->default('mail.notification_email', 'accounts@fin.test')),
                 'send_transaction_notifications' => setting_bool('mail.send_transaction_notifications', false),
             ],
             'reports' => [
-                'default_locale' => setting('reports.default_locale', 'en'),
+                'default_locale' => setting('reports.default_locale', $this->default('reports.default_locale', 'en')),
             ],
         ];
     }
@@ -38,5 +38,12 @@ class SettingService
         }
 
         $settingsBag->flush();
+    }
+
+    protected function default(string $key, mixed $fallback = null): mixed
+    {
+        $defaults = config('finance.setting_defaults', []);
+
+        return $defaults[$key] ?? $fallback;
     }
 }

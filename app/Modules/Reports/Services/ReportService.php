@@ -3,6 +3,7 @@
 namespace App\Modules\Reports\Services;
 
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -30,23 +31,27 @@ class ReportService
 
     public function monthlySummary(array $filters = []): Collection
     {
+        $periodExpression = $this->monthPeriodExpression();
+
         return $this->filteredQuery($filters)
-            ->selectRaw("DATE_FORMAT(transaction_date, '%Y-%m') as period")
+            ->selectRaw("{$periodExpression} as period")
             ->selectRaw("SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) as income_total")
             ->selectRaw("SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as expense_total")
-            ->groupBy('period')
-            ->orderBy('period')
+            ->groupBy(DB::raw($periodExpression))
+            ->orderBy(DB::raw($periodExpression))
             ->get();
     }
 
     public function yearlySummary(array $filters = []): Collection
     {
+        $periodExpression = $this->yearPeriodExpression();
+
         return $this->filteredQuery($filters)
-            ->selectRaw('YEAR(transaction_date) as period')
+            ->selectRaw("{$periodExpression} as period")
             ->selectRaw("SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) as income_total")
             ->selectRaw("SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as expense_total")
-            ->groupBy('period')
-            ->orderBy('period')
+            ->groupBy(DB::raw($periodExpression))
+            ->orderBy(DB::raw($periodExpression))
             ->get();
     }
 
@@ -65,20 +70,48 @@ class ReportService
     public function monthlyTrend(int $months = 6): array
     {
         $startDate = now()->startOfMonth()->subMonths($months - 1);
+        $periodExpression = $this->monthPeriodExpression();
 
         $rows = Transaction::query()
             ->whereDate('transaction_date', '>=', $startDate)
-            ->selectRaw("DATE_FORMAT(transaction_date, '%b %Y') as label")
+            ->selectRaw("{$periodExpression} as period")
             ->selectRaw("SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) as income_total")
             ->selectRaw("SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as expense_total")
-            ->groupBy(DB::raw("DATE_FORMAT(transaction_date, '%Y-%m')"), 'label')
-            ->orderBy(DB::raw("DATE_FORMAT(transaction_date, '%Y-%m')"))
+            ->groupBy(DB::raw($periodExpression))
+            ->orderBy(DB::raw($periodExpression))
             ->get();
 
         return [
-            'labels' => $rows->pluck('label')->all(),
+            'labels' => $rows->map(function ($row) {
+                return Carbon::createFromFormat('Y-m', $row->period)->format('M Y');
+            })->all(),
             'income' => $rows->pluck('income_total')->map(fn ($value) => (float) $value)->all(),
             'expense' => $rows->pluck('expense_total')->map(fn ($value) => (float) $value)->all(),
         ];
+    }
+
+    protected function monthPeriodExpression(): string
+    {
+        return match ($this->driver()) {
+            'sqlite' => "strftime('%Y-%m', transaction_date)",
+            'pgsql' => "TO_CHAR(transaction_date, 'YYYY-MM')",
+            'sqlsrv' => "FORMAT(transaction_date, 'yyyy-MM')",
+            default => "DATE_FORMAT(transaction_date, '%Y-%m')",
+        };
+    }
+
+    protected function yearPeriodExpression(): string
+    {
+        return match ($this->driver()) {
+            'sqlite' => "strftime('%Y', transaction_date)",
+            'pgsql' => "TO_CHAR(transaction_date, 'YYYY')",
+            'sqlsrv' => "FORMAT(transaction_date, 'yyyy')",
+            default => 'YEAR(transaction_date)',
+        };
+    }
+
+    protected function driver(): string
+    {
+        return Transaction::query()->getConnection()->getDriverName();
     }
 }

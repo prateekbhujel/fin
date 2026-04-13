@@ -1,8 +1,8 @@
 <x-guest-layout>
     <div class="mb-8">
         <div class="text-sm font-medium uppercase tracking-[0.25em] text-brand-500">Welcome back</div>
-        <h1 class="mt-3 text-3xl font-semibold text-gray-900 dark:text-white">Sign in to your workspace</h1>
-        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Use your account to manage transactions, reports, and office finance operations.</p>
+        <h1 class="mt-3 text-3xl font-semibold text-gray-900 dark:text-white">Pick up where the finance desk left off</h1>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Check today&apos;s entries, missing support files, and the running balance without jumping between tools.</p>
     </div>
 
     <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -41,7 +41,7 @@
     </form>
 
     <p class="mt-8 text-sm text-gray-500 dark:text-gray-400">
-        Need an account?
+        Need a new team account?
         <a href="{{ route('register') }}" class="font-medium text-brand-500 hover:text-brand-600">Create one</a>
     </p>
 </x-guest-layout>

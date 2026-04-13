@@ -5,21 +5,30 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
+        "typecheck": "tsc --noEmit",
         "test:e2e": "npm run build && playwright test",
         "test:e2e:headed": "npm run build && playwright test --headed"
     },
     "devDependencies": {
         "@playwright/test": "^1.59.1",
         "@tailwindcss/vite": "^4.1.12",
+        "@types/react": "^19.2.14",
+        "@types/react-dom": "^19.2.3",
         "axios": "^1.11.0",
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^2.0.0",
         "tailwindcss": "^4.1.12",
+        "typescript": "^6.0.2",
         "vite": "^7.0.7"
     },
     "dependencies": {
+        "@vitejs/plugin-react": "^5.0.4",
         "alpinejs": "^3.14.9",
+        "antd": "^6.3.5",
         "apexcharts": "^5.3.5",
-        "flatpickr": "^4.6.13"
+        "flatpickr": "^4.6.13",
+        "react": "^19.2.5",
+        "react-apexcharts": "^2.1.0",
+        "react-dom": "^19.2.5"
     }
 }

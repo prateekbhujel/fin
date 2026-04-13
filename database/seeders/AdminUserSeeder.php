@@ -11,7 +11,7 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         $admin = User::updateOrCreate(
-            ['email' => env('ADMIN_EMAIL', 'admin@finance.test')],
+            ['email' => env('ADMIN_EMAIL', 'admin@fin.test')],
             [
                 'name' => env('ADMIN_NAME', 'System Admin'),
                 'phone' => env('ADMIN_PHONE', '9800000000'),
@@ -24,7 +24,7 @@ class AdminUserSeeder extends Seeder
         $admin->syncRoles(['admin']);
 
         $staff = User::updateOrCreate(
-            ['email' => env('STAFF_EMAIL', 'staff@finance.test')],
+            ['email' => env('STAFF_EMAIL', 'staff@fin.test')],
             [
                 'name' => env('STAFF_NAME', 'Finance Staff'),
                 'phone' => env('STAFF_PHONE', '9811111111'),
